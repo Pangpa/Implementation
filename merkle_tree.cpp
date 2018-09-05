@@ -11,7 +11,9 @@ class Merkle {
 	private:
 		vector<T> values;
 		hash<ull> HASH;
-	public:	
+	public:	/*For Copying keep in mind the Algorithm has a serious flaw related to
+       		  duplicate txids, resulting in a vulnerability (CVE-2012-2459)
+		*/
 		Merkle(){
 		}
 		ull hasher(ull a,ull b){
@@ -32,12 +34,10 @@ class Merkle {
 				cout<<a<<"   "<<h<<"\n";
 				current.push_back(h); //convert to size_t 
 			}
-			
 			while (current.size() != 1) {
 				current = getHashedParents(current);
 			}
 			return current[0];
-			//return 1ULL;
 		}
 	private:
 		vector<ull> getHashedParents (const vector<ull> &children) {
